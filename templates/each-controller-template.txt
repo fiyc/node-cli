@@ -1,0 +1,108 @@
+/**
+* @Author: fiyc
+* @Date : 2018-08-01 16:48
+* @FileName : variable-controller.js
+* @Description : 
+    - 变量配置接口
+*/
+
+let base = require('./base');
+let r = base.r;
+let errorHandle = base.errorCallback;
+let sf = require('../common/safe-function');
+
+let constants = require('../common/constants');
+let service = require('../service/{{tableAlias}}-service');
+let coreLink = require('../service/core-link-service');
+
+let apis = {
+    /**
+     * 查询集合
+     * @param pageNumber
+     * @param pageSize
+     */
+    findAll: async function (req, res, next) {
+        let pageNumber = Number(req.query.pageNumber);
+        let pageSize = Number(req.query.pageSize);
+
+        /**
+         * 缺少参数校验
+         */
+
+        let result = await service.findAll({ pageNumber, pageSize });
+        r(req, res).common(result);
+    },
+
+    /**
+     * 查询详情
+     * @param id MQ id
+     */
+    findDetail: async function (req, res, next) {
+        let id = Number(req.query.id);
+        if (!id) {
+            r(req, res).error(res.__('invalid_variable_id'));
+            return;
+        }
+
+        let result = await service.findDetail(id);
+        r(req, res).common(result);
+    },
+
+    /**
+     * 插入变量
+     {{#each columns}}
+     * @param {{columnName}} {{columnComment}}
+     {{/each}}
+     */
+    insert: async function (req, res, next) {
+        {{#each columns}}
+        let {{columnName}} = req.body.{{columnName}};
+        {{/each}} 
+
+        let result = await service.insert({
+            {{#each columns}}
+            {{columnName}},
+            {{/each}} 
+        });
+        r(req, res).common(result);
+    },
+
+    /**
+     * 修改变量
+     {{#each columns}}
+     * @param {{columnName}} {{columnComment}}
+     {{/each}}
+     */
+    update: async function (req, res, next) {
+        {{#each columns}}
+        let {{columnName}} = req.body.{{columnName}};
+        {{/each}} 
+
+        let result = await service.update({
+            {{#each columns}}
+            {{columnName}},
+            {{/each}} 
+        });
+        r(req, res).common(result);
+    },
+
+    /**
+     * 删除变量
+     * @param id
+     */
+    delete: async function (req, res, next) {
+        let id = Number(req.body.id);
+        if (!id) {
+            r(req, res).error(res.__('invalid_variable_id'));
+            return;
+        }
+
+        let result = await service.delete({id});
+        r(req, res).common(result);
+    }
+};
+
+
+//为接口进行装饰
+apis = sf.convertSafeFn(apis, errorHandle);
+module.exports = apis;

@@ -1,0 +1,34 @@
+/**
+* @Author: fiyc
+* @Date : 2018-07-26 14:28
+* @FileName : api.js
+* @Description : 
+    - 接口路由模块
+*/
+
+
+var express = require('express');
+var router = express.Router();
+
+let gloablApi = require('../controller/global-controller');
+{{#each tables}}
+let {{tableAlias}}Api = require('../controller/{{tableAlias}}-controller');
+{{/each}}
+
+
+///////////////////////////通用接口/////////////////////////////
+router.get('/global/variables', gloablApi.variables);
+router.get('/global/triggers', gloablApi.triggers);
+router.post('/global/login', gloablApi.login);
+
+{{#each tables}}
+///////////////////////////{{tableAlias}}接口/////////////////////////////
+router.get('/{{tableAlias}}/find', {{tableAlias}}Api.findAll);
+router.get('/{{tableAlias}}/detail', {{tableAlias}}Api.findDetail);
+router.post('/{{tableAlias}}/insert', {{tableAlias}}Api.insert);
+router.put('/{{tableAlias}}/update', {{tableAlias}}Api.update);
+router.delete('/{{tableAlias}}/delete', {{tableAlias}}Api.delete);
+
+{{/each}}
+
+module.exports = router;

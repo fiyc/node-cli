@@ -1,0 +1,147 @@
+/**
+* @Author: fiyc
+* @Date : {{time}}
+* @FileName : data-service.js
+* @Description : 
+    - 数据获取模块
+*/
+
+let sf = require('../common/safe-function');
+let r = require('../common/r');
+let log = require('../common/Log');
+let orm = require('../modules/sqlite-module');
+
+
+let dataUtil = {
+
+    {{#each tables}}
+    /**
+     * 查询{{tableAlias}}
+     * @param pageNumber 页码
+     * @param pageSie 每页显示数量
+     {{#each columns}}
+     * @param {{columnName}} {{columnComment}}
+     {{/each}}
+     */
+    find{{tableAlias}}s: function (param) {
+        let defaultParam = {
+            {{#each columns}}
+            {{columnName}}: {{defaultValue}},
+            {{/each}}
+        };
+        param = Object.assign(defaultParam, param);
+
+        let searchParam = {
+            where: {
+                status: 1
+            }
+        };
+
+        if (param.pageNumber > 0 && param.pageSize > 0) {
+            searchParam.offset = (param.pageNumber - 1) * param.pageSize;
+            searchParam.limit = param.pageSize;
+        }
+
+        {{#each columns}}
+        if(param.{{columnName}}){
+            searchParam.where.{{columnName}} = param.{{columnName}};            
+        }
+
+        {{/each}}
+
+        return orm.{{tableAlias}}.findAll(searchParam);
+    },
+
+    /**
+     * 查询{{tableAlias}}总数
+     {{#each columns}}
+     * @param {{columnName}} {{columnComment}}
+     {{/each}}
+     */
+    find{{tableAlias}}Count: function(param){
+        let defaultParam = {
+            {{#each columns}}
+            {{columnName}}: {{defaultValue}},
+            {{/each}}
+        };
+        param = Object.assign(defaultParam, param);
+
+        let searchParam = {
+            where: {
+                status: 1
+            }
+        };
+
+        {{#each columns}}
+        if(param.{{columnName}}){
+            searchParam.where.{{columnName}} = param.{{columnName}};            
+        }
+
+        {{/each}}
+
+        return orm.{{tableAlias}}.count(searchParam);
+    }
+
+    /**
+     * 保存{{tableAlias}}
+     {{#each columns}}
+     * @param {{columnName}} {{columnComment}}
+     {{/each}}
+     */
+    save{{tableAlias}}: function (param) {
+        let defaultParam = {
+            {{#each columns}}
+            {{columnName}}: {{defaultValue}},
+            {{/each}}
+            status: 1
+        };
+        param = Object.assign(defaultParam, param);
+
+        if (param.id > 0) {
+            return orm.{{tableAlias}}.update(param, { where: { id: param.id } });
+        } else {
+            return orm.{{tableAlias}}.create(param);
+        }
+    },
+
+    /**
+     * 删除{{tableAlias}}
+     {{#each columns}}
+     * @param {{columnName}} {{columnComment}}
+     {{/each}}
+     */
+    delete{{tableAlias}}: function (param) {
+        let deleteParam = {
+            status: 0
+        };
+
+        let defaultParam = {
+            {{#each columns}}
+            {{columnName}}: {{defaultValue}},
+            {{/each}}
+        };
+        param = Object.assign(defaultParam, param);
+
+        let deleteFilter = {
+            where: {
+                status: 1
+            }
+        };
+
+        {{#each columns}}
+        if(param.{{columnName}}){
+            deleteFilter.where.{{columnName}} = param.{{columnName}};            
+        }
+
+        {{/each}}
+
+        return orm.{{tableAlias}}.update(deleteParam, deleteFilter);
+    },
+
+    {{/each}}
+}
+
+
+
+dataUtil = sf.convertSafeFn(dataUtil);
+module.exports = dataUtil;

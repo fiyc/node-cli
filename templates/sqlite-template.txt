@@ -1,0 +1,63 @@
+/**
+* @Author: fiyc
+* @Date : {{time}}
+* @FileName : sqlite-module.js
+* @Description : 
+    - sqlite数据库模块
+*/
+
+const config = require('../config');
+let log = require('../common/Log');
+
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize(config.dbName, '', '', {
+    host: 'localhost',
+    dialect: 'sqlite',
+    operatorsAliases: false,
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    },
+
+    storage: config.dbFilePath
+});
+
+{{#each tables}}
+/**
+ * {{comment}}
+ */
+const {{tableAlias}} = sequelize.define('{{tableName}}', {
+
+    {{#each columns}}
+    /**
+     * {{columnComment}}
+     */
+    {{columnName}}: {
+        type: Sequelize.{{columnType}},
+        primaryKey: {{isPrimary}},
+        autoIncrement: {{isPrimary}}
+    },
+
+    {{/each}}
+
+    /**
+     * 状态-  无效: 0  有效: 1
+     */
+    status: {
+        type: Sequelize.INTEGER
+    }
+
+});
+{{tableAlias}}.sync();
+
+{{/each}}
+
+
+
+module.exports = {
+    {{#each tables}}
+    {{tableAlias}},
+    {{/each}}
+}

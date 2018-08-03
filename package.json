@@ -1,0 +1,14 @@
+{
+  "name": "fiyc-cli",
+  "version": "1.0.0",
+  "description": "node后台应用脚手架工具",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "fiyc",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.0.11"
+  }
+}
