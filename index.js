@@ -1,5 +1,6 @@
 let path = require('path');
 let handler = require('./fileHandler');
+let global = require('./global');
 
 let targetConfig;
 let targetPath;
@@ -7,15 +8,16 @@ let templatePath = path.join(__dirname, '../resources/project-template');
 let args = process.argv;
 if (args.length < 4) {
     // process.exit(0);
-    targetPath = path.join(__dirname, '../../test');
-    targetConfig = path.join(__dirname, '../resources/config-template.json');
+    targetPath = path.join(__dirname, '../test');
+    targetConfig = path.join(__dirname, 'config.json');
 } else {
     targetPath = path.join(__dirname, args[2]);
     targetConfig = path.join(__dirname, args[3]);
 }
 
 targetConfig = require(targetConfig);
-
+let time = new Date().Format("yyyy-MM-dd hh:mm");
+targetConfig.time = time;
 
 
 //拷贝基本项目结构
@@ -35,12 +37,14 @@ handler.compareTemplateAndSave(dataServicePath, targetConfig, "data-service-temp
 
 //为每一个table生成service
 targetConfig.tables.forEach(item => {
+    item.time = time;
     let itemPath = path.join(targetPath, `service/${item.tableAlias}-service.js`);
     handler.compareTemplateAndSave(itemPath, item, "each-service-template.txt");
 });
 
 //为每一个table生成controller
 targetConfig.tables.forEach(item => {
+    item.time = time;
     let itemPath = path.join(targetPath, `controller/${item.tableAlias}-controller.js`);
     handler.compareTemplateAndSave(itemPath, item, "each-controller-template.txt");
 });

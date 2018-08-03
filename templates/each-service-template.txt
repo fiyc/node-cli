@@ -119,7 +119,7 @@ let service = {
 
         let result = await dataService.save{{tableAlias}}(param);
         cache.clearCache(constants.CACHE_LEVELS.{{tableAlias}}_LIST);
-        return r.success('插入成功' result.id);
+        return r.success('插入成功', result.id);
     },
 
     /**
@@ -177,7 +177,7 @@ let service = {
        cache.clearCache(constants.CACHE_LEVELS.{{tableAlias}}_LIST);
        let detailCacheKey = cache.makeCacheKey(constants.CACHE_KEYFLAG.{{tableAlias}}_DETAIL, param.id);
        cache.clearCache(constants.CACHE_LEVELS.{{tableAlias}}_DETAIL, detailCacheKey);
-       return r.success('删除成功', id);
+       return r.success('删除成功', param.id);
     }
 };
 

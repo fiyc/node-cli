@@ -80,7 +80,7 @@ let dataUtil = {
         {{/each}}
 
         return orm.{{tableAlias}}.count(searchParam);
-    }
+    },
 
     /**
      * 保存{{tableAlias}}
