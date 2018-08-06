@@ -25,10 +25,6 @@ let apis = {
         let pageNumber = Number(req.query.pageNumber);
         let pageSize = Number(req.query.pageSize);
 
-        /**
-         * 缺少参数校验
-         */
-
         let result = await service.findAll({ pageNumber, pageSize });
         r(req, res).common(result);
     },
