@@ -49,7 +49,7 @@ let apis = {
     },
 
     /**
-     * 插入变量
+     * 插入
      {{#each columns}}
      * @param {{columnName}} {{columnComment}}
      {{/each}}
@@ -68,7 +68,7 @@ let apis = {
     },
 
     /**
-     * 修改变量
+     * 修改
      {{#each columns}}
      * @param {{columnName}} {{columnComment}}
      {{/each}}
@@ -87,7 +87,7 @@ let apis = {
     },
 
     /**
-     * 删除变量
+     * 删除
      * @param id
      */
     delete: async function (req, res, next) {

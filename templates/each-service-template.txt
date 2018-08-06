@@ -47,7 +47,7 @@ let service = {
         }
 
         let dataResult = await dataService.find{{tableAlias}}s(param);
-        let total = await dataService.find{{tableAlias}}Count();
+        let total = await dataService.find{{tableAlias}}Count(param);
 
         let resultData = {
             list: [],
