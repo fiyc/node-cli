@@ -6,15 +6,18 @@ let targetConfig;
 let targetPath;
 let templatePath = path.join(__dirname, '../resources/project-template');
 let args = process.argv;
+
 if (args.length < 4) {
-    // process.exit(0);
-    targetPath = path.join(__dirname, '../test');
-    targetConfig = path.join(__dirname, 'config.json');
+    console.log("缺少参数 fiyc-cli <目标输出地址> <配置文件>");
+    process.exit(0);
+    // targetPath = path.join(__dirname, '../test');
+    // targetConfig = path.join(__dirname, 'config.json');
 } else {
-    targetPath = path.join(__dirname, args[2]);
-    targetConfig = path.join(__dirname, args[3]);
+    targetPath = path.join(process.cwd(), args[2]);
+    targetConfig = path.join(process.cwd(), args[3]);
 }
 
+console.log(`新建项目 ${targetPath}`);
 targetConfig = require(targetConfig);
 let time = new Date().Format("yyyy-MM-dd hh:mm");
 targetConfig.time = time;
