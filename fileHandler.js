@@ -1,6 +1,7 @@
 let fs = require('fs');
 let path = require('path');
 let h = require('handlebars');
+let docHandle = require('./swagger-config-maker');
 
 /**
  * 拷贝文件 
@@ -58,7 +59,19 @@ let initProject = function(savePath){
     copyFloder(src, savePath);
 }
 
+/**
+ * 生成接口swagger-ui配置
+ * @param {*} savePath 
+ * @param {*} param 
+ */
+let makeApiDoc = function(savePath, config){
+    let result = docHandle(config);
+    fs.writeFileSync(savePath, result);
+}
+
+
 module.exports = {
     compareTemplateAndSave,
-    initProject
+    initProject,
+    makeApiDoc
 };

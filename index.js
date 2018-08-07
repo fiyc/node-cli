@@ -9,9 +9,9 @@ let args = process.argv;
 
 if (args.length < 4) {
     console.log("缺少参数 fiyc-cli <目标输出地址> <配置文件>");
-    process.exit(0);
-    // targetPath = path.join(__dirname, '../test');
-    // targetConfig = path.join(__dirname, 'config.json');
+    // process.exit(0);
+    targetPath = path.join(__dirname, '../test');
+    targetConfig = path.join(__dirname, 'config.json');
 } else {
     targetPath = path.join(process.cwd(), args[2]);
     targetConfig = path.join(process.cwd(), args[3]);
@@ -25,6 +25,9 @@ targetConfig.time = time;
 
 //拷贝基本项目结构
 handler.initProject(targetPath);
+
+let swaggerConfigPath = path.join(targetPath, 'public/swagger.json');
+handler.makeApiDoc(swaggerConfigPath, targetConfig);
 
 //生成constants
 let constantsPath = path.join(targetPath, "common/constants.js");
@@ -55,3 +58,4 @@ targetConfig.tables.forEach(item => {
 //生成路由文件
 let routePath = path.join(targetPath, 'routes/api.js');
 handler.compareTemplateAndSave(routePath, targetConfig, "router-template.txt");
+

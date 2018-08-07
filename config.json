@@ -1,10 +1,11 @@
 {
-    "name": "amq-link",
+    "name": "modbus-link",
+    "port": 4000,
     "tables": [
         {
-            "tableName": "al_mq",
-            "tableAlias": "mq",
-            "comment": "MQ配置表",
+            "tableName": "ml_modbus",
+            "tableAlias": "modbus",
+            "comment": "Modbus服务配置表",
             "columns": [
                 {
                     "columnName": "id",
@@ -17,34 +18,20 @@
                     "columnName": "name",
                     "columnType": "TEXT",
                     "isPrimary": false,
-                    "columnComment": "MQ名称",
-                    "defaultValue" : "null"
-                },
-                {
-                    "columnName": "ip",
-                    "columnType": "TEXT",
-                    "isPrimary": false,
-                    "columnComment": "MQ地址",
+                    "columnComment": "Modbus 服务名",
                     "defaultValue" : "null"
                 },
                 {
                     "columnName": "port",
-                    "columnType": "TEXT",
+                    "columnType": "INTEGER",
                     "isPrimary": false,
                     "columnComment": "MQ端口",
-                    "defaultValue" : "null" 
-                },
-                {
-                    "columnName": "topic",
-                    "columnType": "TEXT",
-                    "isPrimary": false,
-                    "columnComment": "MQ 推送topic",
-                    "defaultValue" : "null"
+                    "defaultValue" : "0" 
                 }
             ]
         },
         {
-            "tableName": "al_variable",
+            "tableName": "ml_variable",
             "tableAlias": "variable",
             "comment": "变量配置表",
             "columns": [
@@ -56,25 +43,11 @@
                     "defaultValue" : "0"
                 },
                 {
-                    "columnName": "mqId",
+                    "columnName": "modbusId",
                     "columnType": "BIGINT",
                     "isPrimary": false,
-                    "columnComment": "MQ id",
+                    "columnComment": "Modbus 服务ID",
                     "defaultValue" : "0"
-                },
-                {
-                    "columnName": "triggerKey",
-                    "columnType": "TEXT",
-                    "isPrimary": false,
-                    "columnComment": "触发器key",
-                    "defaultValue" : "null"
-                },
-                {
-                    "columnName": "triggerName",
-                    "columnType": "TEXT",
-                    "isPrimary": false,
-                    "columnComment": "触发器名",
-                    "defaultValue" : "null" 
                 },
                 {
                     "columnName": "valId",
@@ -89,6 +62,20 @@
                     "isPrimary": false,
                     "columnComment": "变量名",
                     "defaultValue" : "null"
+                },
+                {
+                    "columnName": "registerType",
+                    "columnType": "INTEGER",
+                    "isPrimary": false,
+                    "columnComment": "寄存器类型 1:Coil 2:Input 3:HoldingRegister 4:InputREgister",
+                    "defaultValue" : "0"
+                },
+                {
+                    "columnName": "memoryAddress",
+                    "columnType": "INTEGER",
+                    "isPrimary": false,
+                    "columnComment": "寄存器地址",
+                    "defaultValue" : "0"
                 }
             ]
         }
