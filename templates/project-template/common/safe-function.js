@@ -27,17 +27,15 @@ let F = function (fn, context, errorHander) {
         }
     } else if (fn.constructor.name === 'AsyncFunction'){
         return async function () {
-            try {
-                context = context || this;
-                return fn.apply(context, arguments);
-            } catch (err) {
+            context = context || this;
+            return fn.apply(context, arguments).catch(function (err) {
                 arguments[arguments.length] = err.message;
                 arguments.length += 1;
                 log.error(err);
-                if(errorHander && typeof errorHander === 'function'){
+                if (errorHander && typeof errorHander === 'function') {
                     return errorHander.apply(null, arguments);
                 }
-            }
+            });
         }
     }
 }

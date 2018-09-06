@@ -27,6 +27,13 @@
                     "isPrimary": false,
                     "columnComment": "MQ端口",
                     "defaultValue" : "0" 
+                },
+                {
+                    "columnName": "lastReadId",
+                    "columnType": "INTEGER",
+                    "isPrimary": false,
+                    "columnComment": "MQ端口",
+                    "defaultValue" : "0" 
                 }
             ]
         },

@@ -1,17 +1,14 @@
 {
+        "id": 0,
         "appName": "",
         "appAuthor": "fiyc",
-        "appId": "",
-        "appSecret": "",
         "appDescription": "",
+        "appIsLocal": true,
+        "autoStart": true,
+        "appLang": "node",
+        "appHost": "127.0.0.1",
+        "appPort": 3000,
         "appEntryFile": "./bin/www",
-        "appErrorLog": "",
-        "appOutputLog": "",
-        "appThriftHost": "127.0.0.1",
-        "appThriftPort": 3001,
-        "appCategory": 1,
-        "autoStart": false,
-        "appEnable": true,
-        "appEntryUrl": "",
-        "appLogoUrl": ""
+        "appLogoUrl": "/images/logo.png",
+        "appHomeUrl": "/index.html"
 }
